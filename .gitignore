@@ -2,3 +2,6 @@
 *.zip
 train_small/**
 test/**
+train/**
+runs/**
+processed_train/**
