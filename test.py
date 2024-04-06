@@ -11,7 +11,7 @@ resnet = InceptionResnetV1(pretrained='vggface2', classify=True, device=device)
 num_classes = 100
 fc_layer = nn.Linear(512, num_classes)
 resnet.logits = fc_layer
-resnet.load_state_dict(torch.load('model_9.pth'))  
+resnet.load_state_dict(torch.load('model_0.pth'))  
 
 class MTCNNTransform:
     def __init__(self, mtcnn, save_img=False):

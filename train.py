@@ -2,6 +2,7 @@ import torch
 from torchvision import datasets, transforms
 from torch import nn
 from facenet_pytorch import MTCNN, InceptionResnetV1
+from custom_dataset import CustomDataset
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -11,7 +12,7 @@ resnet = InceptionResnetV1(pretrained='vggface2', classify=True, device=device)
 num_classes = 100
 fc_layer = nn.Linear(512, num_classes)
 resnet.logits = fc_layer
-resnet.load_state_dict(torch.load('model_9.pth'))
+resnet.load_state_dict(torch.load('model_2.pth'))
 
 class MTCNNTransform:
     def __init__(self, mtcnn, save_img=False):
@@ -38,12 +39,14 @@ transform = transforms.Compose([
     # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
+
 dataset = datasets.ImageFolder('train', transform=transform)
-train_size = int(0.8 * len(dataset))
+dataset = CustomDataset('processed_train')
+train_size = int(0.95 * len(dataset))
 val_size = len(dataset) - train_size
 train_dataset, val_dataset = torch.utils.data.random_split(dataset, [train_size, val_size])
 
-train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=128, shuffle=True)
+train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=150, shuffle=True)
 val_dataloader = torch.utils.data.DataLoader(val_dataset, batch_size=64, shuffle=True)
 
 def train(model, train_loader, val_loader, loss_fn, optimizer, num_epochs=10):

@@ -15,7 +15,7 @@ resnet = InceptionResnetV1(pretrained='vggface2', classify=True, device=device)
 num_classes = 100
 fc_layer = nn.Linear(512, num_classes)
 resnet.logits = fc_layer
-resnet.load_state_dict(torch.load('runs/model_0_full.pth'))  
+resnet.load_state_dict(torch.load('model_0.pth'))  
 
 
 images = os.listdir("test/test/")
@@ -50,7 +50,7 @@ with torch.no_grad():
 
 
 print(results)
-with open("test_out_full_epooch_0.csv", "w") as out_file:
+with open("test_out_full_epooch_6.csv", "w") as out_file:
     out_file.write("ID,Category\n")
     for path, cl in results:
         out_file.write(f"{path.split('.jpg')[0]},{cl}\n")

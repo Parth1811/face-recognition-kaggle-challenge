@@ -9,6 +9,8 @@ mtcnn = MTCNN(image_size=224, margin=0)
 
 os.makedirs("processed_train", exist_ok=True)
 for folder in tqdm(os.listdir("train")):
+    if os.path.exists(f"processed_train/{folder}"):
+        continue
     os.makedirs(f"processed_train/{folder}", exist_ok=True)
     for img_path in tqdm(os.listdir(f"train/{folder}")):
         with Image.open(f"train/{folder}/{img_path}") as img:
